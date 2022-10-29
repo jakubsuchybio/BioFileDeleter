@@ -24,7 +24,7 @@ public static class Program
             .WithParsed(o =>
             {
                 _options = o;
-                Task.Run(() => CheckForRemovalCycle());
+                RemovalCycle();
             });
     }
 
@@ -49,7 +49,7 @@ public static class Program
             Console.WriteLine(msg);
     }
 
-    private static void CheckForRemovalCycle()
+    private static void RemovalCycle()
     {
         while (!_cts.IsCancellationRequested)
         {
