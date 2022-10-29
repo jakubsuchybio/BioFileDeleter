@@ -16,15 +16,20 @@ public static class Program
     public static void Main(string[] args)
     {
         Console.CancelKeyPress += ConsoleOnCancelKeyPress;
-        
+
         AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
         TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
-        
+
         Parser.Default.ParseArguments<Options>(args)
             .WithParsed(o =>
             {
                 _options = o;
                 RemovalCycle();
+            })
+            .WithNotParsed(errors =>
+            {
+                foreach (var error in errors)
+                    WriteIfVerbose(error.ToString() ?? "Unknown error");
             });
     }
 
@@ -53,7 +58,6 @@ public static class Program
     {
         while (!_cts.IsCancellationRequested)
         {
-            
         }
     }
 }
